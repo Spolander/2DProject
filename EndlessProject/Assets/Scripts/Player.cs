@@ -40,8 +40,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     public GameObject bulletPrefab;
 
-    
-    private Vector2 defaultBulletSpawnPoint = new Vector2(0.28f,0.29f);
+    [SerializeField]
+    private Vector2 defaultBulletSpawnPoint = new Vector2(0.5f,0.5f);
 
     [SerializeField]
     private float rateOfFire = 0.2f;
@@ -50,8 +50,19 @@ public class Player : MonoBehaviour {
 
     [SerializeField]
     private float projectileSpeed = 15;
+
+    [SerializeField]
+    private float fallMultiplier = 1.5f;
+
+    private float fallTimer = 0;
+
+    [SerializeField]
+    private float fallLimit = 1f;
+
+    public static Player player;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+        player = this;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 	}
@@ -89,6 +100,13 @@ public class Player : MonoBehaviour {
             jumpTimer = 0;
         }
 
+
+        if (anim.GetBool("Grounded") == false)
+        {
+            fallTimer += Time.deltaTime;
+        }
+        else
+            fallTimer = 0;
       
     }
 
@@ -106,7 +124,9 @@ public class Player : MonoBehaviour {
 
         rb.velocity = velocity;
 
-        
+        if (fallTimer > fallLimit)
+            rb.velocity += Vector2.down * fallMultiplier;
+    
     }
 
     private void Jump()

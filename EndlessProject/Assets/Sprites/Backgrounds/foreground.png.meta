@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: e8057121cc844c64a8d799ed8c48e282
+guid: b6f9c280c9961e04ca8d5eb0a8e3f4e2
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: muzzleFlash_0
-    21300002: muzzleFlash_1
-    21300004: muzzleFlash_2
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -43,7 +40,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -96,71 +93,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: muzzleFlash_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 4
-        width: 3
-        height: 5
-      alignment: 9
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a0d54e4fff7dd8442861689d78cadb3b
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: muzzleFlash_1
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 1
-        width: 7
-        height: 9
-      alignment: 9
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f3de900cb3f8a874b884076679a481b4
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: muzzleFlash_2
-      rect:
-        serializedVersion: 2
-        x: 6
-        y: 2
-        width: 4
-        height: 7
-      alignment: 9
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 21e9e9ea3adbd2c4d8cf1d327ec1bc90
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: c75ccb045107c9a439f723abc254c194
+    spriteID: f080a32a0e613c3469b5214aa1ac901a
     vertices: []
     indices: 
     edges: []

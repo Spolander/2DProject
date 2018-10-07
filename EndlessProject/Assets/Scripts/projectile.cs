@@ -8,7 +8,7 @@ public class projectile : MonoBehaviour {
     float speed;
 
     
-    private float hitBoxSize = 0.02f;
+    private float hitBoxSize = 0.01f;
 
     [SerializeField]
     private LayerMask collisionLayers;
