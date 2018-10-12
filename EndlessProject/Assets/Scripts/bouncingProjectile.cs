@@ -34,10 +34,23 @@ public class bouncingProjectile : MonoBehaviour {
     [SerializeField]
     float forceLossPercentage = 0.25f;
 
-    private void Start()
+    [SerializeField]
+    private GameObject explosionPrefab;
+
+    [SerializeField]
+    private GameObject[] shrapnel;
+
+    [SerializeField]
+    private float shrapnelSpeed = 5;
+
+    [SerializeField]
+    private int shrapnelCount = 4;
+
+    public void Initialize(Vector2 velocity)
     {
+        this.velocity = velocity;
         originPoint = transform.position;
-        angle = Mathf.Atan(velocity.y / velocity.x)*Mathf.Rad2Deg;
+        angle = Mathf.Atan(velocity.y / velocity.x) * Mathf.Rad2Deg;
     }
     // Use this for initialization
 
@@ -46,7 +59,7 @@ public class bouncingProjectile : MonoBehaviour {
     {
         t += Time.deltaTime;
         float xPosition = originPoint.x + velocity.x * t;
-        float yPosition =originPoint.y + ((velocity.magnitude * t) - (0.5f * 9.81f * t*t));
+        float yPosition =originPoint.y + ((velocity.y * t) - (0.5f * 9.81f * t*t));
 
         float displacementX = xPosition - transform.position.x;
         float displacementY = yPosition - transform.position.y;
@@ -80,6 +93,22 @@ public class bouncingProjectile : MonoBehaviour {
         }
 
 
+    }
+
+    public void Explode()
+    {
+        if (explosionPrefab)
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+
+        soundEngine.soundMaster.PlaySound("rockExplosion");
+        for (int i = 0; i < shrapnelCount; i++)
+        {
+            Vector3 direction =  Quaternion.AngleAxis((360 / shrapnelCount) * i, Vector3.forward) * Vector3.up;
+            GameObject g = (GameObject)Instantiate(shrapnel[0], transform.position, Quaternion.identity);
+            g.GetComponent<EnemyProjectile>().Initialize(direction, shrapnelSpeed);
+        }
+
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()

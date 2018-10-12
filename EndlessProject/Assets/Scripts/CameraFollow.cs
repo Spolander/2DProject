@@ -29,6 +29,9 @@ public class CameraFollow : MonoBehaviour {
 	// Update is called once per frame
 	void LateUpdate ()
     {
+        if (target == null)
+            return;
+
         Vector3 playerDeltaPosition = target.position - playerLastPosition;
 
         Vector3 targetPosition = target.position + playerDeltaPosition * lookAheadTime;
@@ -38,6 +41,7 @@ public class CameraFollow : MonoBehaviour {
 
         targetPosition.z = -10;
 
+        if(targetPosition.x > transform.position.x)
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, dampTime);
 
         playerLastPosition = target.transform.position;
