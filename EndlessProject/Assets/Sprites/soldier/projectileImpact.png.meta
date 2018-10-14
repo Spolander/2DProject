@@ -1,12 +1,11 @@
 fileFormatVersion: 2
-guid: 8220c8979abf5924793d5adda3c2f561
+guid: 684da07731cbaaa4ba11e53efd819110
 TextureImporter:
   fileIDToRecycleName:
-    21300000: rockSpiderDeath_0
-    21300002: rockSpiderDeath_1
-    21300004: rockSpiderDeath_2
-    21300006: rockSpiderDeath_3
-    21300008: rockSpiderDeath_4
+    21300000: projectileImpact_0
+    21300002: projectileImpact_1
+    21300004: projectileImpact_2
+    21300006: projectileImpact_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -52,7 +51,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -68,7 +67,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -79,7 +78,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -90,7 +89,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,101 +99,81 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rockSpiderDeath_0
+      name: projectileImpact_0
       rect:
         serializedVersion: 2
-        x: 201
-        y: 4
-        width: 39
-        height: 37
-      alignment: 9
-      pivot: {x: 0.53846157, y: 0.45945945}
+        x: 7
+        y: 29
+        width: 3
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7be615666df81b54c91f587d8301290d
+      spriteID: 11bf82ae539001649a5fa1a4925d4d15
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rockSpiderDeath_1
+      name: projectileImpact_1
       rect:
         serializedVersion: 2
-        x: 135
-        y: 0
-        width: 42
-        height: 41
-      alignment: 9
-      pivot: {x: 0.5, y: 0.59}
+        x: 6
+        y: 20
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99945e3db1f70be4c9c0585e64e0b015
+      spriteID: 60c8caffba9d6e14cbc0bc01f5c4a26b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rockSpiderDeath_2
+      name: projectileImpact_2
       rect:
         serializedVersion: 2
-        x: 70
-        y: 0
-        width: 44
-        height: 41
-      alignment: 9
-      pivot: {x: 0.47727272, y: 0.65}
+        x: 6
+        y: 12
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b0836362b9f5cc4da4e0ab52b13296a
+      spriteID: 253bc3db5f5183b478c0e5a3f1e6065f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rockSpiderDeath_3
+      name: projectileImpact_3
       rect:
         serializedVersion: 2
-        x: 2
+        x: 3
         y: 0
-        width: 49
-        height: 26
-      alignment: 9
-      pivot: {x: 0.5102041, y: 0.87}
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5060991bcae03a4097bcdc8109730bd
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rockSpiderDeath_4
-      rect:
-        serializedVersion: 2
-        x: 267
-        y: 0
-        width: 35
-        height: 39
-      alignment: 9
-      pivot: {x: 0.6, y: 0.53846157}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5bc2433889be5a640883c90fc3053f8e
+      spriteID: 460abec6bc3243b4ab1eb525aaeb64ab
       vertices: []
       indices: 
       edges: []
@@ -202,7 +181,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 416fc41b0e95d0040b46a37a4bf66464
+    spriteID: 277d0050a38ec8748a5510c04529ad67
     vertices: []
     indices: 
     edges: []

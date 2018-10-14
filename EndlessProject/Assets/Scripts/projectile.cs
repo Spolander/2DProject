@@ -14,6 +14,9 @@ public class projectile : MonoBehaviour {
     [SerializeField]
     protected LayerMask collisionLayers;
 
+    [SerializeField]
+    protected GameObject impactEffect;
+
     protected Camera cam;
 
     private void Start()
@@ -65,6 +68,8 @@ public class projectile : MonoBehaviour {
 
         if (cols[0])
         {
+            Instantiate(impactEffect, transform.position, Quaternion.identity);
+
             if (cols[0].GetComponent<EnemyHealth>())
                 cols[0].GetComponent<EnemyHealth>().TakeDamage();
             Destroy(gameObject);

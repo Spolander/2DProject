@@ -22,7 +22,7 @@ public class EnemyHealth : BaseHealth {
     {
 
         base.TakeDamage(damage);
-
+        soundEngine.soundMaster.PlaySound("impactSound", transform.position);
         if (hitPoints <= 0)
             return;
 
@@ -56,7 +56,6 @@ public class EnemyHealth : BaseHealth {
             m.SetFloat("_MaskAmount", flashValue);
             if (Mathf.Approximately(target, flashValue))
             {
-                print("yeaa");
                 target = target == maxValue ? 0 : maxValue;
 
             }

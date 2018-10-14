@@ -34,24 +34,45 @@ public class RockSpider : Enemy {
 
     float fallingTimer = 0;
     float lastGroundedY = 0;
+
+    [SerializeField]
+    private float activationDelay = 1f;
+
+    [SerializeField]
+    private GameObject particleEffect;
+
+    bool activated = false;
 	protected override void Start () {
         base.Start();
 
+        Instantiate(particleEffect, transform.position, Quaternion.identity);
+        Invoke("Activate", activationDelay);
+      
+	}
+
+    void Activate()
+    {
+        activated = true;
         originPoint = transform.position;
         anim = GetComponent<Animator>();
 
         direction = startingDirection;
         transform.localScale = new Vector3(direction * -1, 1, 1);
 
-        soundEngine.soundMaster.PlaySound("spiderScream");
+        soundEngine.soundMaster.PlaySound("spiderScream",transform.position);
         Invoke("ActivateAnimator", 0.5f);
-	}
+    }
     void ActivateAnimator()
     {
         anim.enabled = true;
     }
     private void Update()
     {
+
+        if (activated == false)
+            return;
+
+
         if (jumping)
         {
             t += Time.deltaTime*timerMultiplier;
@@ -135,7 +156,7 @@ public class RockSpider : Enemy {
 
     public override void OnDeath()
     {
-        soundEngine.soundMaster.PlaySound("spiderDeath");
+        soundEngine.soundMaster.PlaySound("spiderDeath",transform.position);
         GetComponent<Collider2D>().enabled = false;
         walking = false;
         jumping = false;

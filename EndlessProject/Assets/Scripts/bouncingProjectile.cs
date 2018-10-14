@@ -77,6 +77,7 @@ public class bouncingProjectile : MonoBehaviour {
 
             if (hit.collider)
             {
+
                 t = 0;
                 originPoint = transform.position;
             }
@@ -100,7 +101,7 @@ public class bouncingProjectile : MonoBehaviour {
         if (explosionPrefab)
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 
-        soundEngine.soundMaster.PlaySound("rockExplosion");
+        soundEngine.soundMaster.PlaySound("rockExplosion",transform.position);
         for (int i = 0; i < shrapnelCount; i++)
         {
             Vector3 direction =  Quaternion.AngleAxis((360 / shrapnelCount) * i, Vector3.forward) * Vector3.up;

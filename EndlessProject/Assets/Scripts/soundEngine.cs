@@ -19,6 +19,12 @@ public class soundEngine : MonoBehaviour
     [SerializeField]
     private AudioClip spiderDeath;
 
+    [SerializeField]
+    private AudioClip boulderHit;
+
+    [SerializeField]
+    private AudioClip impactSound;
+
     public AudioMixer mixer;
 
     private void Awake()
@@ -31,7 +37,7 @@ public class soundEngine : MonoBehaviour
         GetComponent<AudioSource>().Play();
     }
 
-    public void PlaySound(string soundclip)
+    public void PlaySound(string soundclip,Vector3 position)
     {
         GameObject g = new GameObject("Sound clip");
         AudioSource a = g.AddComponent<AudioSource>();
@@ -56,7 +62,17 @@ public class soundEngine : MonoBehaviour
         {
             a.clip = spiderDeath;
         }
-       
+        else if (soundclip == "boulderHit")
+        {
+            a.clip = boulderHit;
+        }
+        else if (soundclip == "impactSound")
+        {
+            a.clip = impactSound;
+            a.volume = 0.7f;
+        }
+
+        g.transform.position = position;
         a.outputAudioMixerGroup = mixer.FindMatchingGroups("FX")[0];
         a.Play();
         Destroy(g, a.clip.length + 1);

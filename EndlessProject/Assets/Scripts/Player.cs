@@ -103,7 +103,7 @@ public class Player : MonoBehaviour {
         {
             if (Time.time > lastFireTime + rateOfFire)
             {
-                soundEngine.soundMaster.PlaySound("gun1");
+                soundEngine.soundMaster.PlaySound("gun1",transform.position);
                 lastFireTime = Time.time;
                 GameObject g = (GameObject)Instantiate(bulletPrefab, transform.TransformPoint(currentBulletSpawnPoint), Quaternion.identity);
                 g.GetComponent<projectile>().Initialize(aimVector, projectileSpeed);
