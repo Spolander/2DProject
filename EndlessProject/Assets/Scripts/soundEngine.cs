@@ -13,6 +13,11 @@ public class soundEngine : MonoBehaviour
     [SerializeField]
     private AudioClip rockExplosion;
 
+    [SerializeField]
+    private AudioClip spiderScream;
+
+    [SerializeField]
+    private AudioClip spiderDeath;
 
     public AudioMixer mixer;
 
@@ -42,6 +47,14 @@ public class soundEngine : MonoBehaviour
         else if (soundclip == "rockExplosion")
         {
             a.clip = rockExplosion;
+        }
+        else if (soundclip == "spiderScream")
+        {
+            a.clip = spiderScream;
+        }
+        else if (soundclip == "spiderDeath")
+        {
+            a.clip = spiderDeath;
         }
        
         a.outputAudioMixerGroup = mixer.FindMatchingGroups("FX")[0];

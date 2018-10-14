@@ -94,7 +94,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
+        float horizontal = Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.2f ? Mathf.Sign(Input.GetAxisRaw("Horizontal")): 0;
         anim.SetFloat("Speed", Mathf.Abs(horizontal) > 0.2f ? 1 : 0);
 
         SetAimVector();
@@ -215,7 +215,7 @@ public class Player : MonoBehaviour {
         float horizontal = 0;
         if (canMoveHorizontally())
         {
-         horizontal = Input.GetAxisRaw("Horizontal");
+            horizontal = Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.2f ? Mathf.Sign(Input.GetAxisRaw("Horizontal")) : 0;
         }
        
 

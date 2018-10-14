@@ -104,7 +104,7 @@ public class bouncingProjectile : MonoBehaviour {
         for (int i = 0; i < shrapnelCount; i++)
         {
             Vector3 direction =  Quaternion.AngleAxis((360 / shrapnelCount) * i, Vector3.forward) * Vector3.up;
-            GameObject g = (GameObject)Instantiate(shrapnel[0], transform.position, Quaternion.identity);
+            GameObject g = (GameObject)Instantiate(shrapnel[Random.Range(0, shrapnel.Length)], transform.position, Quaternion.identity);
             g.GetComponent<EnemyProjectile>().Initialize(direction, shrapnelSpeed);
         }
 

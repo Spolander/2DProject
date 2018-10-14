@@ -9,6 +9,9 @@ public class BaseHealth : MonoBehaviour {
 
     public virtual void TakeDamage(int damage = 1)
     {
+        if (hitPoints <= 0)
+            return;
+
         hitPoints -= damage;
 
         if (hitPoints <= 0)
