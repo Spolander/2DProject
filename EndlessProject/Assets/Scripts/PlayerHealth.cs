@@ -54,7 +54,6 @@ public class PlayerHealth : BaseHealth {
             m.SetFloat("_MaskAmount", flashValue);
             if (Mathf.Approximately(target, flashValue))
             {
-                print("yeaa");
                 target = target == maxValue ? 0 : maxValue;
 
             }

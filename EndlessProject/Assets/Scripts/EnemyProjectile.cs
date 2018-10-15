@@ -44,4 +44,9 @@ public class EnemyProjectile : projectile {
 
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(transform.position, Vector3.one * hitBoxSize);
+    }
+
 }

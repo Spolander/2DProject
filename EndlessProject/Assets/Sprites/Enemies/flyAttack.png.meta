@@ -1,0 +1,351 @@
+fileFormatVersion: 2
+guid: 94fb5852576062840bba2969eae5c6db
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: flyAttack_0
+    21300002: flyAttack_1
+    21300004: flyAttack_2
+    21300006: flyAttack_3
+    21300008: flyAttack_4
+    21300010: flyAttack_5
+    21300012: flyAttack_6
+    21300014: flyAttack_7
+    21300016: flyAttack_8
+    21300018: flyAttack_9
+    21300020: flyAttack_10
+    21300022: flyAttack_11
+  externalObjects: {}
+  serializedVersion: 7
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: flyAttack_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 133
+        width: 43
+        height: 45
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.5777778}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5529bafb04ae9694abe1ba9a9ad6b7bd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_1
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 132
+        width: 44
+        height: 43
+      alignment: 9
+      pivot: {x: 0.4318182, y: 0.74418604}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a000faf4b40d42e45800cb4aa839fe7a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_2
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 133
+        width: 43
+        height: 41
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.7317073}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: faec53dae5aeb95439cab6ceadb9c8fa
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_3
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 132
+        width: 46
+        height: 43
+      alignment: 9
+      pivot: {x: 0.4130435, y: 0.74418604}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e6e19e581c47d940bf6438f240b056b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_4
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 129
+        width: 43
+        height: 51
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.627451}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 990aed415d405b4468da8ad92cffd81d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 70
+        width: 43
+        height: 41
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.7317073}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57fd8bd3c96dd3148bd3ded08ce74c6b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_6
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 69
+        width: 44
+        height: 43
+      alignment: 9
+      pivot: {x: 0.4318182, y: 0.74418604}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8c577db709c7904384e7dfab12649e0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_7
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 67
+        width: 43
+        height: 44
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.75}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1506620a256c624fae531fb515e2d1d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_8
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 69
+        width: 43
+        height: 48
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.6041667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c80009e7b2eae4e4bb0cbf52f3c44d6c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_9
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 69
+        width: 43
+        height: 41
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.7317073}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d7bd695128e25f4797df08609cd7c6f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2
+        width: 43
+        height: 44
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.7045455}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31369490ee16652479ec61b326cd4b74
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flyAttack_11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 43
+        height: 42
+      alignment: 9
+      pivot: {x: 0.44186047, y: 0.7380952}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53f2b3515581ac5409bf0e8fd14df5b7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: d16fb94bac675a1478f1d1a1d68f649a
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

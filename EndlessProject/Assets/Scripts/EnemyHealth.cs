@@ -36,7 +36,6 @@ public class EnemyHealth : BaseHealth {
     {
         GetComponent<Enemy>().OnDeath();
         GetComponent<Enemy>().enabled = false;
-        GetComponent<Animator>().Play("Death");
         GetComponent<Collider2D>().enabled = false;
     }
     IEnumerator damageFlash()

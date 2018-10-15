@@ -73,6 +73,7 @@ public class rockEnemy : Enemy {
             g.GetComponent<bouncingProjectile>().Initialize(new Vector2(0, 3));
             g.GetComponent<bouncingProjectile>().enabled = true;
         }
+        anim.Play("Death");
         soundEngine.soundMaster.PlaySound("boulderHit", transform.position);
         StartCoroutine(dissolveAnimation());
     }
