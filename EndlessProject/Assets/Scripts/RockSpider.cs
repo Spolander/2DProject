@@ -163,5 +163,6 @@ public class RockSpider : Enemy {
         jumping = false;
         anim.Play("Death");
         StartCoroutine(dissolveAnimation());
+        this.enabled = false;
     }
 }

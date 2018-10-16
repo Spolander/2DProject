@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     protected int startingDirection = -1;
     public int StartingDirection { get { return startingDirection; } }
+
+    protected bool dead = false;
     
 
     protected virtual void Start()
@@ -40,6 +42,7 @@ public class Enemy : MonoBehaviour {
 
     public virtual void OnDeath()
     {
+        dead = true;
         Destroy(gameObject);
     }
 

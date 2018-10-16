@@ -35,7 +35,7 @@ public class EnemyHealth : BaseHealth {
     public override void Death()
     {
         GetComponent<Enemy>().OnDeath();
-        GetComponent<Enemy>().enabled = false;
+
         GetComponent<Collider2D>().enabled = false;
     }
     IEnumerator damageFlash()

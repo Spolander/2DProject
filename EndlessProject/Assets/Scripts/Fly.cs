@@ -61,16 +61,16 @@ public class Fly : Enemy {
 	// Update is called once per frame
 	void Update () {
 
-        if (player)
+        if (player && !dead)
         {
             Vector3 targetpos = player.transform.position;
 
-            targetpos.y += Mathf.Sin((startingOffset+Time.time) * verticalFidgetSpeed)*fidgetY;
-            targetpos.x += Mathf.Sin((startingOffset+Time.time) * horizontalFidgetSpeed)*fidgetX;
+            targetpos.y += Mathf.Sin((startingOffset + Time.time) * verticalFidgetSpeed) * fidgetY;
+            targetpos.x += Mathf.Sin((startingOffset + Time.time) * horizontalFidgetSpeed) * fidgetX;
 
             targetpos.y += baseHeight;
             targetpos.y = Mathf.Clamp(targetpos.y, cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).y, cam.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y);
-            targetpos.x = Mathf.Clamp(targetpos.x, cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x, cam.ScreenToWorldPoint(new Vector3(Screen.width,0, 0)).x);
+            targetpos.x = Mathf.Clamp(targetpos.x, cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x, cam.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x);
 
             transform.position = Vector3.MoveTowards(transform.position, targetpos, speed * Time.deltaTime);
 
@@ -79,7 +79,7 @@ public class Fly : Enemy {
                 if (direction == -1)
                 {
                     direction = 1;
-                    transform.localScale = new Vector3(-1,1,1);
+                    transform.localScale = new Vector3(-1, 1, 1);
                 }
             }
             else if (player.transform.position.x < transform.position.x)
@@ -99,6 +99,12 @@ public class Fly : Enemy {
             }
 
         }
+
+        else if (dead)
+        {
+            transform.position += Vector3.down * 5 * Time.deltaTime;
+            transform.Rotate(new Vector3(0, 0, 1), 180f * Time.deltaTime);
+        }
 	}
 
     void Shoot()
@@ -116,5 +122,14 @@ public class Fly : Enemy {
 
         }
         
+    }
+
+    public override void OnDeath()
+    {
+        dead = true;
+        soundEngine.soundMaster.PlaySound("spiderDeath", transform.position);
+        GetComponent<Collider2D>().enabled = false;
+        anim.Play("Death");
+        StartCoroutine(dissolveAnimation());
     }
 }
