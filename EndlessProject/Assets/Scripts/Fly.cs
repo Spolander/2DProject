@@ -103,7 +103,7 @@ public class Fly : Enemy {
         else if (dead)
         {
             transform.position += Vector3.down * 5 * Time.deltaTime;
-            transform.Rotate(new Vector3(0, 0, 1), 180f * Time.deltaTime);
+            transform.Rotate(new Vector3(0, 0, Mathf.Sign(transform.localScale.x)), 180f * Time.deltaTime);
         }
 	}
 
@@ -117,6 +117,7 @@ public class Fly : Enemy {
 
         if (player)
         {
+            soundEngine.soundMaster.PlaySound("flyShoot", transform.position);
             GameObject g = (GameObject)Instantiate(projectile, transform.TransformPoint(0.527f, -0.76f, 0), Quaternion.identity);
             g.GetComponent<EnemyProjectile>().Initialize(player.transform.TransformPoint(0,0.7f,0f)- transform.TransformPoint(0.527f, -0.76f, 0), projectileSpeed);
 
@@ -126,6 +127,7 @@ public class Fly : Enemy {
 
     public override void OnDeath()
     {
+        soundEngine.soundMaster.PlaySound("flyDeath", transform.position);
         dead = true;
         soundEngine.soundMaster.PlaySound("spiderDeath", transform.position);
         GetComponent<Collider2D>().enabled = false;

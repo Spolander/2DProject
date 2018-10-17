@@ -45,7 +45,7 @@ public class CameraFollow : MonoBehaviour {
 
         targetPosition.z = -10;
 
-        if(targetPosition.x > transform.position.x)
+       // if(targetPosition.x > transform.position.x)
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, dampTime);
 
         playerLastPosition = target.transform.position;

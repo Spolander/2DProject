@@ -25,6 +25,12 @@ public class soundEngine : MonoBehaviour
     [SerializeField]
     private AudioClip impactSound;
 
+    [SerializeField]
+    private AudioClip flyShoot;
+
+    [SerializeField]
+    private AudioClip flyDeath;
+
     public AudioMixer mixer;
 
     private void Awake()
@@ -70,6 +76,15 @@ public class soundEngine : MonoBehaviour
         {
             a.clip = impactSound;
             a.volume = 0.7f;
+        }
+        else if (soundclip == "flyShoot")
+        {
+            a.clip = flyShoot;
+            a.volume = 0.5f;
+        }
+        else if (soundclip == "flyDeath")
+        {
+            a.clip = flyDeath;
         }
 
         g.transform.position = position;
