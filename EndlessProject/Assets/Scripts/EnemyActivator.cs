@@ -6,10 +6,15 @@ public class EnemyActivator : MonoBehaviour {
 
     Vector2 RightLocalRaycastPosition;
     Vector2 LeftLocalRaycastPosition;
+
+    Vector2 TopLocalRaycastPosition;
+
     [SerializeField]
     private LayerMask enemyLayer;
 
     Vector2 screenRes;
+
+    float screenWidth;
 
     private void Start()
     {
@@ -22,6 +27,8 @@ public class EnemyActivator : MonoBehaviour {
 
         LeftLocalRaycastPosition = Camera.main.ScreenToWorldPoint(new Vector3(0f, Screen.height, 0));
         LeftLocalRaycastPosition = transform.InverseTransformPoint(LeftLocalRaycastPosition);
+
+        screenWidth = Mathf.Abs(RightLocalRaycastPosition.x - LeftLocalRaycastPosition.x);
 
         screenRes = new Vector2(Screen.width, Screen.height);
     }
@@ -43,7 +50,8 @@ public class EnemyActivator : MonoBehaviour {
         Debug.DrawRay(transform.TransformPoint(RightLocalRaycastPosition), Vector2.down * 100f, Color.red);
         if (hit.collider)
         {
-            if(hit.collider.GetComponent<Enemy>().StartingDirection == -1)
+            Enemy e = hit.collider.GetComponent<Enemy>();
+            if(e.StartingDirection == -1 || e.EnableFromAnyDirection)
             hit.collider.GetComponent<Enemy>().enabled = true;
         }
 
@@ -51,8 +59,17 @@ public class EnemyActivator : MonoBehaviour {
 
         if (hit.collider)
         {
-            if (hit.collider.GetComponent<Enemy>().StartingDirection == 1)
+            Enemy e = hit.collider.GetComponent<Enemy>();
+            if (e.StartingDirection == 1 || e.EnableFromAnyDirection)
                 hit.collider.GetComponent<Enemy>().enabled = true;
+        }
+
+        
+        hit = Physics2D.Raycast(transform.TransformPoint(LeftLocalRaycastPosition), Vector2.right, screenWidth, enemyLayer);
+
+        if (hit.collider)
+        {
+            hit.collider.GetComponent<Enemy>().enabled = true;
         }
     }
 }

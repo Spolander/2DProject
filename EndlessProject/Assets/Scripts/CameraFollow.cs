@@ -7,10 +7,13 @@ public class CameraFollow : MonoBehaviour {
 
     public enum FollowMode {Horizontal, Both};
     public FollowMode _followMode;
+
+    [SerializeField]
+    private bool constantlyFollowing = false;
     Transform target;
 
     [SerializeField]
-    private Vector2 followOffset;
+    private Vector3 followOffset;
 
     [SerializeField]
     private float lookAheadTime;
@@ -28,7 +31,7 @@ public class CameraFollow : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LateUpdate ()
+	void FixedUpdate ()
     {
         if (Input.GetKeyDown(KeyCode.R))
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -36,20 +39,57 @@ public class CameraFollow : MonoBehaviour {
         if (target == null)
             return;
 
+        if (Player.player.PhysicUpdate == false)
+            return;
+
         Vector3 playerDeltaPosition = target.position - playerLastPosition;
 
-        Vector3 targetPosition = target.position + playerDeltaPosition * lookAheadTime;
+        Vector3 targetPosition = target.position + followOffset+ playerDeltaPosition * lookAheadTime;
 
         if (_followMode == FollowMode.Horizontal)
             targetPosition.y = transform.position.y;
 
         targetPosition.z = -10;
 
-       // if(targetPosition.x > transform.position.x)
+        if(constantlyFollowing == false && targetPosition.x > transform.position.x)
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, dampTime);
+        else
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, dampTime);
+        }
+            
 
         playerLastPosition = target.transform.position;
 
       
 	}
+
+    private void LateUpdate()
+    {
+
+        if (target == null)
+            return;
+
+        if (Player.player.PhysicUpdate)
+            return;
+
+        Vector3 playerDeltaPosition = target.position - playerLastPosition;
+
+        Vector3 targetPosition = target.position + followOffset + playerDeltaPosition * lookAheadTime;
+
+        if (_followMode == FollowMode.Horizontal)
+            targetPosition.y = transform.position.y;
+
+        targetPosition.z = -10;
+
+        if (constantlyFollowing == false && targetPosition.x > transform.position.x)
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, dampTime);
+        else
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, dampTime);
+        }
+
+
+        playerLastPosition = target.transform.position;
+    }
 }

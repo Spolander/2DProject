@@ -8,6 +8,11 @@ public class Enemy : MonoBehaviour {
 
     protected int direction = -1;
 
+    [SerializeField]
+    protected bool enableFromAnyDirection = false;
+
+    public bool EnableFromAnyDirection { get { return enableFromAnyDirection; } }
+
     protected Player player;
 
     [SerializeField]

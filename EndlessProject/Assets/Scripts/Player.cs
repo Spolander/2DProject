@@ -9,7 +9,13 @@ public class Player : MonoBehaviour {
     [SerializeField]
     float movementSpeed = 1;
     Animator anim;
+    [SerializeField]
+    Vector2 groundCheckStart;
 
+    [SerializeField]
+    Vector2 groundCheckEnd;
+
+    Vector2 groundNormal;
     Rigidbody2D rb;
 
     [SerializeField]
@@ -61,12 +67,15 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private float fallMultiplier = 1.5f;
 
+    private float aboutToFallTimer = 0;
+
     private float fallTimer = 0;
 
     [SerializeField]
     private float fallLimit = 1f;
 
     public static Player player;
+    public bool PhysicUpdate { get { return !grapplingHook.Initialized; } }
 
 
     CapsuleCollider2D cc2d;
@@ -105,6 +114,12 @@ public class Player : MonoBehaviour {
 
     int lastSwingDirection;
 
+    private float grapplingHookStartingTime;
+
+    private float grapplingHookCollisionRadius = 0.4f;
+
+    private Vector2 grapplingHookCollisionPoint = new Vector2(-0.1f,0.25f);
+
     [SerializeField]
     private bool hookAbilityFound = false;
 
@@ -117,6 +132,9 @@ public class Player : MonoBehaviour {
         anim = GetComponent<Animator>();
         grapplingHook = GetComponent<Pendulum>();
         currentBulletSpawnPoint = defaultBulletSpawnPoint;
+
+        if(hookAbilityFound)
+        ShowGrapplingHookChains(false);
 	}
 	
 	// Update is called once per frame
@@ -188,6 +206,7 @@ public class Player : MonoBehaviour {
         }
         if (Input.GetButtonDown("Secondary") && canGrappleHook && hookAbilityFound)
         {
+
             StartCoroutine(ShootGrapplingHook(horizontal));
         }
 
@@ -222,6 +241,12 @@ public class Player : MonoBehaviour {
                 lastSwingDirection = grapplingHook.Direction;
                 anim.Play("Swing", 0, 0);
             }
+
+
+            if (Time.time > grapplingHookStartingTime + 0.5f)
+            {
+                GrapplingHookCollision();
+            }
         }
         else
         {
@@ -230,10 +255,12 @@ public class Player : MonoBehaviour {
             else if (horizontal < 0 && transform.localScale.x > 0)
                 Flip();
         }
+
+        groundCheck();
      }
 
         void SetAimVector()
-    {
+        {
         aimVector = Vector2.zero;
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -310,16 +337,41 @@ public class Player : MonoBehaviour {
             //if(jumpedFromGrapplingHook)
             //velocity += new Vector2(launchDirection.x, 0f) * grapplingHookForce;
 
+
+
+            if (anim.GetBool("Grounded"))
+            {
+                rb.gravityScale = 0;
+                velocity = Vector3.ProjectOnPlane(velocity, groundNormal);
+                if (horizontal == 0)
+                    velocity = Vector2.zero;
+            }
+            else
+                rb.gravityScale = 2;
+
+
             rb.velocity = velocity;
 
-            if (fallTimer > fallLimit)
+            if (fallTimer > fallLimit && anim.GetBool("Grounded") == false)
                 rb.velocity += Vector2.down * fallMultiplier;
+
         }
     
     }
 
+    private void GrapplingHookCollision()
+    {
+        if (Physics2D.OverlapCircle(transform.TransformPoint(grapplingHookCollisionPoint), grapplingHookCollisionRadius, collisionLayers))
+        {
+            anim.Play("Move");
+            ShowGrapplingHookChains(false);
+                grapplingHook.Initialized = false;
+                rb.isKinematic = false;
+        }
+    }
     private void Jump()
     {
+        groundNormal = new Vector2(0, 1);
         jumpTimer += Time.deltaTime;
 
         if (jumpTimer >= jumpWindow)
@@ -349,6 +401,7 @@ public class Player : MonoBehaviour {
 
     IEnumerator ShootGrapplingHook(float horizontal)
     {
+        grapplingHookStartingTime = Time.time;
         soundEngine.soundMaster.PlaySound("hookShoot", transform.position);
         canGrappleHook = false;
         float distance = 0;
@@ -394,7 +447,7 @@ public class Player : MonoBehaviour {
                     anim.Play("Swing", 0, 0);
                     canJump = true;
                     canGrappleHook = true;
-                    grapplingHook.InitializePendulum(hit.collider.transform.position, hit.distance, direction);
+                    grapplingHook.InitializePendulum(hit.collider.transform.position, Mathf.Clamp(hit.distance,2, hit.distance), direction);
                     rb.isKinematic = true;
                     lastSwingDirection = (int)Mathf.Sign(transform.localScale.x);
                     yield break;
@@ -428,6 +481,7 @@ public class Player : MonoBehaviour {
         {
             RaycastHit2D h = Physics2D.Raycast(transform.TransformPoint(raycastPoints[i]), Vector2.right * Mathf.Sign(transform.localScale.x), wallCheckDistance, collisionLayers);
             if (h.collider)
+                if(h.normal.y < 0.7f)
                 return false;
         }
         return true;
@@ -439,6 +493,9 @@ public class Player : MonoBehaviour {
             for (int i = 0; i < raycastPoints.Length; i++)
                 Gizmos.DrawRay(transform.TransformPoint(raycastPoints[i]), Vector2.right * Mathf.Sign(transform.localScale.x) * wallCheckDistance);
         }
+
+       // Gizmos.DrawWireSphere(transform.TransformPoint(grapplingHookCollisionPoint), grapplingHookCollisionRadius);
+        Gizmos.DrawLine(transform.TransformPoint(groundCheckStart), transform.TransformPoint(groundCheckEnd));
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -448,6 +505,7 @@ public class Player : MonoBehaviour {
             foreach (ContactPoint2D c in collision.contacts)
                 if (c.normal.y > 0.7f)
                 {
+                    groundNormal = c.normal;
                     canGrappleHook = true;
                     anim.SetBool("Grounded", true);
                     canJump = jumping ? false : true;
@@ -457,5 +515,24 @@ public class Player : MonoBehaviour {
          }
                
         
+    }
+
+    void groundCheck()
+    {
+        bool grounded = Physics2D.Linecast(transform.TransformPoint(groundCheckStart), transform.TransformPoint(groundCheckEnd), collisionLayers);
+
+        if (grounded)
+            aboutToFallTimer = 0;
+        else
+            aboutToFallTimer += Time.deltaTime;
+
+        if (aboutToFallTimer > 0.05f && anim.GetBool("Grounded"))
+        {
+            fallTimer = 0.25f;
+            groundNormal = Vector3.down;
+            anim.SetBool("Grounded", false);
+            rb.gravityScale = 2;
+        }
+            
     }
 }
