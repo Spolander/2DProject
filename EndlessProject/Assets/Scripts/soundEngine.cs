@@ -31,6 +31,12 @@ public class soundEngine : MonoBehaviour
     [SerializeField]
     private AudioClip flyDeath;
 
+    [SerializeField]
+    private AudioClip grapplingHookShoot;
+
+    [SerializeField]
+    private AudioClip grapplingHookLatch;
+
     public AudioMixer mixer;
 
     private void Awake()
@@ -85,6 +91,14 @@ public class soundEngine : MonoBehaviour
         else if (soundclip == "flyDeath")
         {
             a.clip = flyDeath;
+        }
+        else if (soundclip == "hookShoot")
+        {
+            a.clip = grapplingHookShoot;
+        }
+        else if (soundclip == "hookLatch")
+        {
+            a.clip = grapplingHookLatch;
         }
 
         g.transform.position = position;

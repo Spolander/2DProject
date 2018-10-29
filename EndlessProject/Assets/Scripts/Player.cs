@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    float gravity = 0;
+  
     [SerializeField]
     float movementSpeed = 1;
     Animator anim;
@@ -81,13 +81,41 @@ public class Player : MonoBehaviour {
     private Vector2 crouchColliderSize = new Vector2(0.3038788f, 0.8445324f);
 
     Vector2 aimVector;
+
+    Pendulum grapplingHook;
+    [SerializeField]
+    private float grapplingHookDistance = 4;
+
+    public GameObject[] chains;
+
+    [SerializeField]
+    private float grapplingHookForce = 5;
+
+    [SerializeField]
+    private LayerMask grapplingHookLayers;
+
+    [SerializeField]
+    private float grapplingHookShootDuration = 0.75f;
+
+    bool canGrappleHook = true;
+
+    Vector2 launchDirection;
+
+    Transform grapplingPoint;
+
+    int lastSwingDirection;
+
+    [SerializeField]
+    private bool hookAbilityFound = false;
+
     // Use this for initialization
     void Awake () {
+        grapplingPoint = transform.Find("grapplingPoint");
         cc2d = GetComponent<CapsuleCollider2D>();
         player = this;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-
+        grapplingHook = GetComponent<Pendulum>();
         currentBulletSpawnPoint = defaultBulletSpawnPoint;
 	}
 	
@@ -99,7 +127,7 @@ public class Player : MonoBehaviour {
 
         SetAimVector();
 
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && grapplingHook.Initialized == false)
         {
             if (Time.time > lastFireTime + rateOfFire)
             {
@@ -110,22 +138,31 @@ public class Player : MonoBehaviour {
             }
         }
 
-        if (horizontal > 0 && transform.localScale.x < 0)
-            Flip();
-        else if (horizontal < 0 && transform.localScale.x > 0)
-            Flip();
+      
 
         anim.SetLayerWeight(1, Input.GetButton("Fire1") ? 1 : 0);
 
         if (Input.GetButton("Jump") && canJump)
         {
+            if (grapplingHook.Initialized)
+            {
+                jumpTimer = jumpWindow * 0.5f;
+                launchDirection = -(grapplingHook.Center - transform.position).normalized;
+                grapplingHook.Initialized = false;
+                canGrappleHook = true;
+                rb.isKinematic = false;
+                ShowGrapplingHookChains(false);
+            }
             Jump();
+           
         }
+
         else if (Input.GetButtonUp("Jump"))
         {
             canJump = false;
             jumpTimer = 0;
         }
+
 
 
         if (anim.GetBool("Grounded") == false)
@@ -148,6 +185,50 @@ public class Player : MonoBehaviour {
                 cc2d.size = crouchColliderSize;
                 cc2d.offset = crouchColliderOffset;
             }
+        }
+        if (Input.GetButtonDown("Secondary") && canGrappleHook && hookAbilityFound)
+        {
+            StartCoroutine(ShootGrapplingHook(horizontal));
+        }
+
+
+        if (grapplingHook.Initialized)
+        {
+            canJump = true;
+            Vector3 grapplingHookPoint = grapplingHook.pendulumPoint();
+
+            Vector3 translation = Vector3.zero;
+            transform.position = grapplingHookPoint + translation;
+
+            for (int i = 0; i < chains.Length; i++)
+            {
+                Vector3 dir = grapplingHook.Center - grapplingPoint.position;
+
+
+                if (i > 0)
+                {
+                    float lerp = (i * 1.0f) / chains.Length;
+                    chains[i].transform.position = Vector3.Lerp(grapplingPoint.position, grapplingHook.Center, lerp);
+                }
+
+                else
+                    chains[i].transform.position = grapplingPoint.position;
+            }
+            fallTimer = 0;
+            rb.velocity = Vector2.zero;
+            transform.localScale = new Vector3(grapplingHook.Direction, 1, 1);
+            if (grapplingHook.Direction != lastSwingDirection)
+            {
+                lastSwingDirection = grapplingHook.Direction;
+                anim.Play("Swing", 0, 0);
+            }
+        }
+        else
+        {
+            if (horizontal > 0 && transform.localScale.x < 0)
+                Flip();
+            else if (horizontal < 0 && transform.localScale.x > 0)
+                Flip();
         }
      }
 
@@ -212,19 +293,28 @@ public class Player : MonoBehaviour {
     }
     private void FixedUpdate()
     {
-        float horizontal = 0;
-        if (canMoveHorizontally())
-        {
-            horizontal = Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.2f ? Mathf.Sign(Input.GetAxisRaw("Horizontal")) : 0;
-        }
        
 
-        Vector2 velocity = new Vector2(horizontal * movementSpeed, rb.velocity.y);
+            float horizontal = 0;
+            if (canMoveHorizontally())
+            {
+                horizontal = Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.2f ? Mathf.Sign(Input.GetAxisRaw("Horizontal")) : 0;
+            }
 
-        rb.velocity = velocity;
 
-        if (fallTimer > fallLimit)
-            rb.velocity += Vector2.down * fallMultiplier;
+        if (grapplingHook.Initialized == false)
+        {
+
+            Vector2 velocity = new Vector2(horizontal * movementSpeed, rb.velocity.y);
+
+            //if(jumpedFromGrapplingHook)
+            //velocity += new Vector2(launchDirection.x, 0f) * grapplingHookForce;
+
+            rb.velocity = velocity;
+
+            if (fallTimer > fallLimit)
+                rb.velocity += Vector2.down * fallMultiplier;
+        }
     
     }
 
@@ -238,6 +328,13 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        if (grapplingHook.Initialized)
+        {
+            grapplingHook.Initialized = false;
+            rb.isKinematic = false;
+        }
+          
+
         currentBulletSpawnPoint = jumpBulletSpawnPoint;
         cc2d.size = jumpColliderSize;
         cc2d.offset = jumpColliderOffset;
@@ -250,6 +347,75 @@ public class Player : MonoBehaviour {
        
     }
 
+    IEnumerator ShootGrapplingHook(float horizontal)
+    {
+        soundEngine.soundMaster.PlaySound("hookShoot", transform.position);
+        canGrappleHook = false;
+        float distance = 0;
+        int direction = Mathf.Abs(horizontal) > 0 ? (int)Mathf.Sign(horizontal) : (int)Mathf.Sign(transform.localScale.x);
+
+       
+
+        ShowGrapplingHookChains(true);
+
+        if (grapplingHook.Initialized)
+        {
+            canJump = false;
+            grapplingHook.Initialized = false;
+            rb.isKinematic = false;
+            canGrappleHook = true;
+        }
+        while (distance < grapplingHookDistance)
+        {
+            Vector3 centerPoint = jumping ? transform.TransformPoint(0,0.25f,0) : transform.TransformPoint(0, 1, 0);
+            distance += (Time.deltaTime / grapplingHookShootDuration) * grapplingHookDistance;
+       
+            RaycastHit2D hit = Physics2D.CircleCast(centerPoint, 0.3f, Vector2.right * direction, distance, grapplingHookLayers);
+            for (int i = 0; i < chains.Length; i++)
+            {
+                Vector3 dir = Vector2.right * direction;
+
+
+                if (i > 0)
+                {
+                    float lerp = (i * 1.0f) / chains.Length;
+                    chains[i].transform.position = Vector3.Lerp(centerPoint, centerPoint + (dir * distance), lerp);
+                }
+
+                else
+                    chains[i].transform.position = centerPoint;
+            }
+
+            if (hit.collider)
+            {
+                if (hit.collider.tag == "hook")
+                {
+                    soundEngine.soundMaster.PlaySound("hookLatch", hit.collider.transform.position);
+                    anim.Play("Swing", 0, 0);
+                    canJump = true;
+                    canGrappleHook = true;
+                    grapplingHook.InitializePendulum(hit.collider.transform.position, hit.distance, direction);
+                    rb.isKinematic = true;
+                    lastSwingDirection = (int)Mathf.Sign(transform.localScale.x);
+                    yield break;
+                }
+                canGrappleHook = true;
+                ShowGrapplingHookChains(false);
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        ShowGrapplingHookChains(false);
+
+    }
+
+    void ShowGrapplingHookChains(bool show)
+    {
+        for (int i = 0; i < chains.Length; i++)
+            chains[i].SetActive(show);
+    }
     void Flip()
     {
         float scale = transform.localScale.x > 0 ? -1 : 1;
@@ -282,11 +448,13 @@ public class Player : MonoBehaviour {
             foreach (ContactPoint2D c in collision.contacts)
                 if (c.normal.y > 0.7f)
                 {
-}
+                    canGrappleHook = true;
                     anim.SetBool("Grounded", true);
-                    canJump = jumping ? false:true ;
+                    canJump = jumping ? false : true;
                     jumping = false;
                 }
+                   
+         }
                
         
     }

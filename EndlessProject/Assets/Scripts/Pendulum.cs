@@ -5,70 +5,84 @@ using UnityEngine;
 public class Pendulum : MonoBehaviour {
 
 
-    public float angle = 90; //90-270
+    private float angle = 90; //90-270
 
-    public float lerp = 0;
+    private float lerp = 0;
 
-    public Transform center;
+    public float Lerp { get { return lerp; } }
 
-    public Transform ball;
+    private Vector3 center;
+    public Vector3 Center { get { return center; } }
 
-    public float speed;
+    
+    [SerializeField]
+    private float speed;
 
-    public float length = 5;
+    private float length = 5;
 
     int direction = 1;
+    public int Direction { get { return direction; } }
 
     float currentSpeed;
 
     public AnimationCurve speedCurve;
 
-    float targetAngle = 270;
 
     float slowdown = 0;
 
     public float slowDownSpeed = 1;
     public float endSlowDown = 0.8f;
 
-    
-  
-    private void Update()
-    {
+    bool initialized = false;
+    public bool Initialized { get { return initialized; } set { initialized = value; } }
 
+   public void InitializePendulum(Vector3 centerPoint, float length, int direction)
+    {
+        this.lerp = 0;
+        this.center = centerPoint;
+        this.length = length;
+        this.direction = direction;
+        this.initialized = true;
+        angle = direction == 1 ? 90 : 270;
+    }
+
+    public Vector3 pendulumPoint()
+    {
         slowdown = Mathf.MoveTowards(slowdown, 0, Time.deltaTime * slowDownSpeed);
+
+        Vector3 point = Vector3.zero;
 
         if (direction == 1)
         {
             lerp = (angle - 90) / 180;
             currentSpeed = speedCurve.Evaluate(lerp) * speed;
-            angle = Mathf.MoveTowards(angle, 270, Time.deltaTime * currentSpeed*(1-slowdown));
+            angle = Mathf.MoveTowards(angle, 270, Time.deltaTime * currentSpeed * (1 - slowdown));
             if (angle == 270)
             {
                 slowdown = endSlowDown;
                 direction = -1;
             }
-              
+
         }
         else
         {
-            lerp = 1-(angle - 90) / 180;
-            currentSpeed = speedCurve.Evaluate(lerp)*speed;
+            lerp = 1 - (angle - 90) / 180;
+            currentSpeed = speedCurve.Evaluate(lerp) * speed;
             angle = Mathf.MoveTowards(angle, 90, Time.deltaTime * currentSpeed * (1 - slowdown));
             if (angle == 90)
             {
                 slowdown = endSlowDown;
                 direction = 1;
             }
-              
+
         }
 
 
         Vector3 dir = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.up;
-        Debug.DrawRay(transform.position, dir.normalized*length,Color.red);
+        Debug.DrawRay(transform.position, dir.normalized * length, Color.red);
 
-        ball.position = center.position + dir.normalized * length;
+        point = center + dir.normalized * length;
 
-      
-
+        return point;
     }
 }
