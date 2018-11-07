@@ -24,6 +24,15 @@ public class CameraFollow : MonoBehaviour {
 
     [SerializeField]
     private float dampTime = 0.2f;
+
+    [SerializeField]
+    private Vector2 minimumPosition;
+
+    [SerializeField]
+    private Vector2 maximumPosition;
+
+    [SerializeField]
+    private bool limitPosition;
 	// Use this for initialization
 	void Start () {
         target = Player.player.transform;
@@ -59,8 +68,9 @@ public class CameraFollow : MonoBehaviour {
         }
             
 
-        playerLastPosition = target.transform.position;
-
+       playerLastPosition = target.transform.position;
+        if (limitPosition)
+            LimitPosition();
       
 	}
 
@@ -69,10 +79,8 @@ public class CameraFollow : MonoBehaviour {
 
         if (target == null)
             return;
-
-        if (Player.player.PhysicUpdate)
-            return;
-
+       
+     
         Vector3 playerDeltaPosition = target.position - playerLastPosition;
 
         Vector3 targetPosition = target.position + followOffset + playerDeltaPosition * lookAheadTime;
@@ -91,5 +99,24 @@ public class CameraFollow : MonoBehaviour {
 
 
         playerLastPosition = target.transform.position;
+
+        if (limitPosition)
+            LimitPosition();
+    }
+
+    void LimitPosition()
+    {
+        Vector3 pos = transform.position;
+        if (pos.x < minimumPosition.x)
+            pos.x = minimumPosition.x;
+        else if (pos.x > maximumPosition.x)
+            pos.x = maximumPosition.x;
+
+        if (pos.y < minimumPosition.y)
+            pos.y = minimumPosition.y;
+        else if (pos.y > maximumPosition.y)
+            pos.y = maximumPosition.y;
+
+        transform.position = pos;
     }
 }

@@ -69,6 +69,7 @@ public class EnemyActivator : MonoBehaviour {
 
         if (hit.collider)
         {
+            if(hit.collider.GetComponent<Enemy>().EnableFromAnyDirection)
             hit.collider.GetComponent<Enemy>().enabled = true;
         }
     }
