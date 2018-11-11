@@ -80,7 +80,7 @@ public class CameraFollow : MonoBehaviour {
         targetPosition = target.position + followOffset+ playerDeltaPosition * lookAheadTime;
 
         if (_followMode == FollowMode.Horizontal)
-            targetPosition.y = transform.position.y;
+            targetPosition.y = preShakeY;
 
         targetPosition.z = -10;
         CameraShake();
@@ -171,7 +171,7 @@ public class CameraFollow : MonoBehaviour {
 
     public void ActivateCameraShake(float duration, float strength)
     {
-        preShakeY = transform.position.y;
+        //preShakeY = transform.position.y;
         this.shakeDuration = duration;
         this.shakeStrength = strength;
     }

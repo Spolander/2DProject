@@ -12,7 +12,7 @@ public class EnemyHealth : BaseHealth {
 
     Coroutine flash;
 
-    private void Start()
+    protected virtual void Start()
     {
         m = GetComponent<SpriteRenderer>().material;   
     }
@@ -38,7 +38,7 @@ public class EnemyHealth : BaseHealth {
 
         GetComponent<Collider2D>().enabled = false;
     }
-    IEnumerator damageFlash()
+    protected IEnumerator damageFlash()
     {
         float flashValue = 0;
 

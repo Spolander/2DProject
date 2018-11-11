@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockBoss : MonoBehaviour {
+public class RockBoss : Enemy {
 
     [SerializeField]
     private GameObject throwableRock;
 
-    public enum AttackPhase {Idle, RockStorm, GroundStomp, Punch};
+    public enum AttackPhase {Idle, RockStorm, ThrowRocks, Punch};
 
     private AttackPhase phase;
 
@@ -27,19 +27,45 @@ public class RockBoss : MonoBehaviour {
     [SerializeField]
     private float shakeStrength;
 
-    GameObject player;
+    public enum AttackCycle {OnePunch = 1, ThrowDebris, MultiplePunches, RockStorm};
+
+    [SerializeField]
+    private AttackCycle cycle;
+    public AttackCycle Cycle { set { cycle = value; } get { return cycle; } }
 
     Animator anim;
-	// Use this for initialization
-	void Start () {
-        anim = GetComponent<Animator>();
-        player = Player.player.gameObject;
 
-        ChangePhase(AttackPhase.RockStorm);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    [SerializeField]
+    private float timerBetweenAttacks = 1;
+
+    private float lastAttackTime;
+    public float LastAttackTime { set { lastAttackTime = value; } }
+
+    private float comboStartTime;
+
+    [SerializeField]
+    private float comboDuration = 7;
+
+  
+    // Use this for initialization
+    protected override void Start()
+    {
+        base.Start();
+        anim = GetComponent<Animator>();
+
+        ChangePhase(AttackPhase.Idle);
+
+        Invoke("StartAttacking", 1);
+    }
+
+    //Start attack cycle
+    void StartAttacking()
+    {
+        cycle = AttackCycle.OnePunch;
+        ChangePhase(AttackPhase.Punch);
+    }
+    // Update is called once per frame
+    void Update () {
         if (phase == AttackPhase.Idle)
         {
             //don't attack
@@ -50,17 +76,46 @@ public class RockBoss : MonoBehaviour {
             {
                 ChangePhase(AttackPhase.Idle);
             }
-            if (Time.time > lastRockThrowTime + rockThrowInterval)
+            if (Time.time > lastRockThrowTime + rockThrowInterval && anim.GetCurrentAnimatorStateInfo(0).IsName("spawnBoulders") && anim.IsInTransition(0) == false)
             {
                 SpawnRock();
             }
         }
         else if (phase == AttackPhase.Punch)
         {
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && anim.IsInTransition(0) == false && Time.time > lastAttackTime + timerBetweenAttacks)
+            {
+                if (cycle == AttackCycle.OnePunch)
+                {
+                    if (Random.value >= 0.5f)
+                        anim.CrossFadeInFixedTime("punch", 0.5f);
+                    else
+                        anim.CrossFadeInFixedTime("punch2", 0.5f);
+                }
 
+                else if (cycle == AttackCycle.MultiplePunches)
+                {
+                    print("yea yeay ea");
+                    comboStartTime = Time.time;
+                    anim.SetBool("punching", true);
+                    anim.CrossFadeInFixedTime("punch", 0.5f);
+                }
+            }
+
+            if (Time.time > comboStartTime + comboDuration)
+            {
+                anim.SetBool("punching", false);
+            }
+
+            if (cycle == AttackCycle.ThrowDebris)
+            {
+                ChangePhase(AttackPhase.ThrowRocks);
+            }
         }
+
+       
 	}
-    void ChangePhase(AttackPhase phase)
+    public void ChangePhase(AttackPhase phase)
     {
         this.phase = phase;
 
@@ -70,7 +125,13 @@ public class RockBoss : MonoBehaviour {
         }
         else if (this.phase == AttackPhase.RockStorm)
         {
-            anim.CrossFadeInFixedTime("spawnBoulders", 0.5f);
+            cycle = AttackCycle.RockStorm;
+            anim.SetBool("punching", false);
+            anim.SetBool("rockstorm", true);
+        }
+        else if (this.phase == AttackPhase.ThrowRocks)
+        {
+            anim.CrossFadeInFixedTime("throwDebris", 0.5f);
         }
     }
 
@@ -82,7 +143,7 @@ public class RockBoss : MonoBehaviour {
         Vector3 dir = new Vector3(0.2f, -1);
 
         float lerp = (float)currentRockThrowCount / (float)rockThrowCount;
-        Vector3 spawnPos = Camera.main.ScreenToWorldPoint(new Vector3(Mathf.Lerp(-Screen.width*0.25f, Screen.width,lerp), Screen.height));
+        Vector3 spawnPos = Camera.main.ScreenToWorldPoint(new Vector3(Mathf.Lerp(-Screen.width*0.05f, Screen.width,lerp), Screen.height));
         spawnPos.z = 0;
 
         GameObject g = (GameObject)Instantiate(throwableRock, spawnPos, Quaternion.identity);
@@ -92,8 +153,10 @@ public class RockBoss : MonoBehaviour {
 
         if (currentRockThrowCount >= rockThrowCount)
         {
+            anim.SetBool("rockstorm", false);
             currentRockThrowCount = 0;
-            ChangePhase(AttackPhase.Idle);
+            cycle = AttackCycle.OnePunch;
+            ChangePhase(AttackPhase.Punch);
         }
     }
 
@@ -101,4 +164,6 @@ public class RockBoss : MonoBehaviour {
     {
         CameraFollow.playerCamera.ActivateCameraShake(shakeDuration, shakeStrength);
     }
+
+    
 }
