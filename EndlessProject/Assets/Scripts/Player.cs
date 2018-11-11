@@ -123,6 +123,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private bool hookAbilityFound = false;
 
+    Camera cam;
+
     // Use this for initialization
     void Awake () {
         grapplingPoint = transform.Find("grapplingPoint");
@@ -135,6 +137,8 @@ public class Player : MonoBehaviour {
 
         if(hookAbilityFound)
         ShowGrapplingHookChains(false);
+
+        cam = Camera.main;
 	}
 	
 	// Update is called once per frame
@@ -356,7 +360,14 @@ public class Player : MonoBehaviour {
                 rb.velocity += Vector2.down * fallMultiplier;
 
         }
-    
+
+        Vector3 clampPosition = transform.position;
+        if (clampPosition.x < cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x+0.5f)
+            clampPosition.x = cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x+0.5f;
+        else if (clampPosition.x > cam.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x-0.5f)
+            clampPosition.x = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x-0.5f;
+        transform.position = clampPosition;
+
     }
 
     private void GrapplingHookCollision()

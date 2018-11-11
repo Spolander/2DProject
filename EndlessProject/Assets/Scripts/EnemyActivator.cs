@@ -48,7 +48,7 @@ public class EnemyActivator : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(transform.TransformPoint(RightLocalRaycastPosition), Vector2.down, 100f, enemyLayer);
 
         Debug.DrawRay(transform.TransformPoint(RightLocalRaycastPosition), Vector2.down * 100f, Color.red);
-        if (hit.collider)
+        if (hit.collider && !hit.collider.GetComponent<RockBoss>())
         {
             Enemy e = hit.collider.GetComponent<Enemy>();
             if(e.StartingDirection == -1 || e.EnableFromAnyDirection)
@@ -57,7 +57,7 @@ public class EnemyActivator : MonoBehaviour {
 
         hit = Physics2D.Raycast(transform.TransformPoint(LeftLocalRaycastPosition), Vector2.down, 100f, enemyLayer);
 
-        if (hit.collider)
+        if (hit.collider && !hit.collider.GetComponent<RockBoss>())
         {
             Enemy e = hit.collider.GetComponent<Enemy>();
             if (e.StartingDirection == 1 || e.EnableFromAnyDirection)
@@ -67,7 +67,7 @@ public class EnemyActivator : MonoBehaviour {
         
         hit = Physics2D.Raycast(transform.TransformPoint(LeftLocalRaycastPosition), Vector2.right, screenWidth, enemyLayer);
 
-        if (hit.collider)
+        if (hit.collider && !hit.collider.GetComponent<RockBoss>())
         {
             if(hit.collider.GetComponent<Enemy>().EnableFromAnyDirection)
             hit.collider.GetComponent<Enemy>().enabled = true;

@@ -26,14 +26,18 @@ public class PlayerHealth : BaseHealth {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemies"))
         {
 
-                TakeDamage();
-            
+            TakeDamage();
+
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Damage"))
+        {
+            TakeDamage();
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("enemyProjectile"))
         {
 
-                TakeDamage();
-            
+            TakeDamage();
+
         }
     }
 

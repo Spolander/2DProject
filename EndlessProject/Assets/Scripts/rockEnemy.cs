@@ -79,4 +79,6 @@ public class rockEnemy : Enemy {
         StartCoroutine(dissolveAnimation());
         this.enabled = false;
     }
+
+
 }

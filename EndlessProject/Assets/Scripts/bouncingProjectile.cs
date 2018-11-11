@@ -46,6 +46,15 @@ public class bouncingProjectile : MonoBehaviour {
     [SerializeField]
     private int shrapnelCount = 4;
 
+    [SerializeField]
+    private bool shrapnelOn = true;
+
+    [SerializeField]
+    private bool destroyOnImpact = false;
+
+    [SerializeField]
+    private bool physicsEnabled = true;
+
     public void Initialize(Vector2 velocity)
     {
         this.velocity = velocity;
@@ -57,9 +66,16 @@ public class bouncingProjectile : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
+
         t += Time.deltaTime;
         float xPosition = originPoint.x + velocity.x * t;
-        float yPosition =originPoint.y + ((velocity.y * t) - (0.5f * 9.81f * t*t));
+
+      
+            float yPosition;
+        if (physicsEnabled)
+            yPosition = originPoint.y + ((velocity.y * t) - (0.5f * 9.81f * t * t));
+        else
+            yPosition = originPoint.y + velocity.y * t;
 
         float displacementX = xPosition - transform.position.x;
         float displacementY = yPosition - transform.position.y;
@@ -80,6 +96,11 @@ public class bouncingProjectile : MonoBehaviour {
 
                 t = 0;
                 originPoint = transform.position;
+                if (destroyOnImpact)
+                {
+                    Explode();
+                    return;
+                }
             }
         }
 
@@ -91,6 +112,12 @@ public class bouncingProjectile : MonoBehaviour {
             originPoint = transform.position;
             velocity.x *= -1;
             velocity.Scale(Vector2.one * (1-forceLossPercentage));
+
+            if (destroyOnImpact)
+            {
+                Explode();
+                return;
+            }
         }
 
 
@@ -102,11 +129,15 @@ public class bouncingProjectile : MonoBehaviour {
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 
         soundEngine.soundMaster.PlaySound("rockExplosion",transform.position);
-        for (int i = 0; i < shrapnelCount; i++)
+
+        if (shrapnelOn)
         {
-            Vector3 direction =  Quaternion.AngleAxis((360 / shrapnelCount) * i, Vector3.forward) * Vector3.up;
-            GameObject g = (GameObject)Instantiate(shrapnel[Random.Range(0, shrapnel.Length)], transform.position, Quaternion.identity);
-            g.GetComponent<EnemyProjectile>().Initialize(direction, shrapnelSpeed);
+            for (int i = 0; i < shrapnelCount; i++)
+            {
+                Vector3 direction = Quaternion.AngleAxis((360 / shrapnelCount) * i, Vector3.forward) * Vector3.up;
+                GameObject g = (GameObject)Instantiate(shrapnel[Random.Range(0, shrapnel.Length)], transform.position, Quaternion.identity);
+                g.GetComponent<EnemyProjectile>().Initialize(direction, shrapnelSpeed);
+            }
         }
 
         Destroy(gameObject);
