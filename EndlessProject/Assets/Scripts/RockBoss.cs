@@ -7,6 +7,9 @@ public class RockBoss : Enemy {
     [SerializeField]
     private GameObject throwableRock;
 
+    [SerializeField]
+    private GameObject debrisObject;
+
     public enum AttackPhase {Idle, RockStorm, ThrowRocks, Punch};
 
     private AttackPhase phase;
@@ -46,12 +49,21 @@ public class RockBoss : Enemy {
     [SerializeField]
     private float comboDuration = 7;
 
+    [SerializeField]
+    private Transform debrisParent;
+
+    [SerializeField]
+    private int debrisCount = 5;
+
+    List<Transform> debris;
   
     // Use this for initialization
     protected override void Start()
     {
         base.Start();
         anim = GetComponent<Animator>();
+        debris = new List<Transform>();
+
 
         ChangePhase(AttackPhase.Idle);
 
@@ -141,10 +153,10 @@ public class RockBoss : Enemy {
         lastRockThrowTime = Time.time;
 
         Vector3 dir = new Vector3(0.2f, -1);
-
         float lerp = (float)currentRockThrowCount / (float)rockThrowCount;
         Vector3 spawnPos = Camera.main.ScreenToWorldPoint(new Vector3(Mathf.Lerp(-Screen.width*0.05f, Screen.width,lerp), Screen.height));
         spawnPos.z = 0;
+
 
         GameObject g = (GameObject)Instantiate(throwableRock, spawnPos, Quaternion.identity);
         g.GetComponent<bouncingProjectile>().Initialize(dir.normalized * rockSpeed);
@@ -165,5 +177,32 @@ public class RockBoss : Enemy {
         CameraFollow.playerCamera.ActivateCameraShake(shakeDuration, shakeStrength);
     }
 
+    public void SpawnDebris()
+    {
+       
+        for (int i = 0; i < debrisCount; i++)
+        {
+            GameObject d = (GameObject)Instantiate(debrisObject, debrisParent.position, Quaternion.identity);
+            d.transform.SetParent(debrisParent);
+            d.transform.localPosition = Vector3.zero;
+            d.GetComponent<bouncingProjectile>().enabled = false;
+            debris.Add(d.transform);
+        }
+
+    }
+
+    public void ThrowDebris()
+    {
+        float xVariance = Random.Range(-3, 3);
+        for (int i = 0; i < debris.Count; i++)
+        {
+            debris[i].transform.SetParent(null);
+            debris[i].GetComponent<bouncingProjectile>().enabled = true;
+            debris[i].GetComponent<bouncingProjectile>().Initialize(new Vector2(-10-xVariance + i*2, 3));
+           
+        }
+
+        debris.Clear();
+    }
     
 }

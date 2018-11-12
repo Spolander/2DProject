@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerHealth : BaseHealth {
 
     [SerializeField]
@@ -15,6 +15,15 @@ public class PlayerHealth : BaseHealth {
     Coroutine flash;
 
     Material m;
+
+    [SerializeField]
+    private Sprite healthSprite;
+
+    [SerializeField]
+    private Sprite healthGoneSprite;
+
+    [SerializeField]
+    Image[] healthBarSlots;
 
     private void Start()
     {
@@ -38,6 +47,15 @@ public class PlayerHealth : BaseHealth {
 
             TakeDamage();
 
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "health" && hitPoints < maxHitPoints)
+        {
+            Heal(1);
+            Destroy(collision.gameObject);
         }
     }
 
@@ -74,6 +92,15 @@ public class PlayerHealth : BaseHealth {
         lastHitTime = Time.time;
         hitPoints -= damage;
 
+        if (healthBarSlots != null)
+        {
+            if (healthBarSlots.Length > 0)
+            {
+                healthBarSlots[hitPoints].overrideSprite = healthGoneSprite;
+            }
+        }
+           
+
         if (hitPoints <= 0)
         {
             Death();
@@ -86,5 +113,24 @@ public class PlayerHealth : BaseHealth {
 
         flash = StartCoroutine(damageFlash());
         
+    }
+
+    public override void Heal(int amount)
+    {
+        base.Heal(amount);
+
+
+        if (healthBarSlots != null)
+        {
+            if (healthBarSlots.Length > 0)
+            {
+                for (int i = 0; i < hitPoints; i++)
+                {
+                    healthBarSlots[i].overrideSprite = healthSprite;
+                }
+            }
+        }
+
+       
     }
 }
