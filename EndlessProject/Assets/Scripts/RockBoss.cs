@@ -198,7 +198,7 @@ public class RockBoss : Enemy {
         {
             debris[i].transform.SetParent(null);
             debris[i].GetComponent<bouncingProjectile>().enabled = true;
-            debris[i].GetComponent<bouncingProjectile>().Initialize(new Vector2(-10-xVariance + i*2, 3));
+            debris[i].GetComponent<bouncingProjectile>().Initialize(new Vector2(-10-xVariance + i*2, 3+Random.Range(0,3.5f)));
            
         }
 

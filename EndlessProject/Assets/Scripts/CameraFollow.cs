@@ -48,8 +48,11 @@ public class CameraFollow : MonoBehaviour {
 
     private float preShakeY;
 
+    Camera m_cam;
+
     void Awake()
     {
+        m_cam = GetComponent<Camera>();
         playerCamera = this;
     }
 	// Use this for initialization
@@ -155,11 +158,15 @@ public class CameraFollow : MonoBehaviour {
     }
     void LimitPosition()
     {
+        float height = 2f * m_cam.orthographicSize;
+        float width = height * m_cam.aspect;
+        width /= 2;
+
         Vector3 pos = transform.position;
-        if (pos.x < minimumPosition.x)
-            pos.x = minimumPosition.x;
-        else if (pos.x > maximumPosition.x)
-            pos.x = maximumPosition.x;
+        if (pos.x < minimumPosition.x+width)
+            pos.x = minimumPosition.x+width;
+        else if (pos.x > maximumPosition.x-width)
+            pos.x = maximumPosition.x-width;
 
         if (pos.y < minimumPosition.y)
             pos.y = minimumPosition.y;
