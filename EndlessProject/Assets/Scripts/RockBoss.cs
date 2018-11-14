@@ -56,7 +56,16 @@ public class RockBoss : Enemy {
     private int debrisCount = 5;
 
     List<Transform> debris;
-  
+
+    [SerializeField]
+    private GameObject dirtParticle;
+
+    [SerializeField]
+    private Transform rightHand;
+
+    [SerializeField]
+    private Transform leftHand;
+
     // Use this for initialization
     protected override void Start()
     {
@@ -204,5 +213,31 @@ public class RockBoss : Enemy {
 
         debris.Clear();
     }
-    
+
+    public void SpawnDirt()
+    {
+        Instantiate(dirtParticle, rightHand.TransformPoint(0.12f,-0.12f,0), Quaternion.identity);
+    }
+    public void SpawnDirtLeft()
+    {
+        Instantiate(dirtParticle,leftHand.TransformPoint(0.12f, -0.12f, 0), Quaternion.identity);
+    }
+
+    public void PlayDebrisSound()
+    {
+        soundEngine.soundMaster.PlaySound("bossAttackDebris", transform.position);
+    }
+
+    public void PlayAttackSound()
+    {
+        if(Random.value > 0.5f)
+        soundEngine.soundMaster.PlaySound("bossAttackShort", transform.position);
+    }
+
+    public void PlayImpactSound()
+    {
+        soundEngine.soundMaster.PlaySound("bossImpact", transform.position);
+    }
+
+  
 }

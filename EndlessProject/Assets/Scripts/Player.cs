@@ -492,6 +492,7 @@ public class Player : MonoBehaviour {
         {
             RaycastHit2D h = Physics2D.Raycast(transform.TransformPoint(raycastPoints[i]), Vector2.right * Mathf.Sign(transform.localScale.x), wallCheckDistance, collisionLayers);
             if (h.collider)
+                if(h.collider.isTrigger == false)
                 if(h.normal.y < 0.7f)
                 return false;
         }

@@ -43,12 +43,19 @@ public class bossAreaActivator : MonoBehaviour {
         float width = height * Camera.main.aspect;
         cameraPosition.x = mustSeePoint.position.x - (width / 2);
 
-
+        bool soundPlayed = false;
         while (lerp < 1)
         {
             levelMusic.volume = Mathf.Lerp(1, 0, lerp);
             CameraFollow.playerCamera.transform.position = Vector3.Slerp(startPos, cameraPosition, lerp);
             lerp += Time.deltaTime / moveTime;
+
+            if (lerp > 0.5f && soundPlayed == false)
+            {
+                soundPlayed = true;
+                soundEngine.soundMaster.PlaySound("bossGroan", transform.position);
+                CameraFollow.playerCamera.ActivateCameraShake(1f, 1);
+            }
             yield return null;
         }
 

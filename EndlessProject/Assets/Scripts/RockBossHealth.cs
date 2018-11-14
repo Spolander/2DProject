@@ -24,11 +24,9 @@ public class RockBossHealth : EnemyHealth {
         {
             lastHp = hitPoints;
             GetComponent<RockBoss>().ChangePhase(RockBoss.AttackPhase.RockStorm);
+            soundEngine.soundMaster.PlaySound("bossGroan", transform.position);
         }
-        if (hitPoints <= startingHP / 3 && GetComponent<Animator>().GetFloat("speedMultiplier") == 1)
-        {
-            GetComponent<Animator>().SetFloat("speedMultiplier", 1.1f);
-        }
+
 
 
     }

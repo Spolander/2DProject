@@ -37,6 +37,15 @@ public class soundEngine : MonoBehaviour
     [SerializeField]
     private AudioClip grapplingHookLatch;
 
+    [SerializeField]
+    private AudioClip[] bossAttacks;
+
+    [SerializeField]
+    private AudioClip bossImpact;
+
+    [SerializeField]
+    private AudioClip[] bossGroan;
+
     public AudioMixer mixer;
 
     private void Awake()
@@ -60,7 +69,7 @@ public class soundEngine : MonoBehaviour
         {
             a.spatialBlend = 0;
             a.clip = gun1[Random.Range(0, gun1.Length)];
-            a.volume = 1f;
+            a.volume = 0.5f;
         }
         else if (soundclip == "rockExplosion")
         {
@@ -81,7 +90,7 @@ public class soundEngine : MonoBehaviour
         else if (soundclip == "impactSound")
         {
             a.clip = impactSound;
-            a.volume = 0.7f;
+            a.volume = 0.5f;
         }
         else if (soundclip == "flyShoot")
         {
@@ -99,6 +108,22 @@ public class soundEngine : MonoBehaviour
         else if (soundclip == "hookLatch")
         {
             a.clip = grapplingHookLatch;
+        }
+        else if (soundclip == "bossAttackShort")
+        {
+            a.clip = bossAttacks[Random.Range(0, 2)];
+        }
+        else if (soundclip == "bossAttackDebris")
+        {
+            a.clip = bossAttacks[2];
+        }
+        else if (soundclip == "bossGroan")
+        {
+            a.clip = bossGroan[0];
+        }
+        else if (soundclip == "bossImpact")
+        {
+            a.clip = bossImpact;
         }
 
         g.transform.position = position;
