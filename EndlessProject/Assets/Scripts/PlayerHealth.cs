@@ -25,8 +25,11 @@ public class PlayerHealth : BaseHealth {
     [SerializeField]
     Image[] healthBarSlots;
 
+    public static bool canTakeDamage = true;
+
     private void Start()
     {
+        canTakeDamage = true;
         m = GetComponent<SpriteRenderer>().material;
         lastHitTime = -postHitIframes;
     }
@@ -87,6 +90,9 @@ public class PlayerHealth : BaseHealth {
     public override void TakeDamage(int damage = 1)
     {
         if (Time.time < lastHitTime + postHitIframes)
+            return;
+
+        if (canTakeDamage == false)
             return;
 
         lastHitTime = Time.time;

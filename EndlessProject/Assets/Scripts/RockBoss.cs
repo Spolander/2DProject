@@ -138,6 +138,9 @@ public class RockBoss : Enemy {
 	}
     public void ChangePhase(AttackPhase phase)
     {
+
+        if (this.enabled == false)
+            return;
         this.phase = phase;
 
         if (this.phase == AttackPhase.Idle)
@@ -237,6 +240,18 @@ public class RockBoss : Enemy {
     public void PlayImpactSound()
     {
         soundEngine.soundMaster.PlaySound("bossImpact", transform.position);
+    }
+
+    public void ClearDebris()
+    {
+        if(debris != null)
+        if (debris.Count > 0)
+        {
+            for (int i = 0; i < debris.Count; i++)
+                Destroy(debris[i].gameObject);
+        }
+
+        debris.Clear();
     }
 
   

@@ -59,6 +59,8 @@ public class bossAreaActivator : MonoBehaviour {
             yield return null;
         }
 
+        levelMusic.Stop();
+
         GameObject g = new GameObject("cameraTarget");
         g.transform.position = cameraPosition;
         CameraFollow.playerCamera.alternateFollowTarget = g.transform;

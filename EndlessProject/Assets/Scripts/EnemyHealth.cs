@@ -10,7 +10,7 @@ public class EnemyHealth : BaseHealth {
     [SerializeField]
     private float flashDuration = 0.15f;
 
-    Coroutine flash;
+    protected Coroutine flash;
 
     protected virtual void Start()
     {
