@@ -21,10 +21,13 @@ public class rockEnemy : Enemy {
 
     private GameObject holdingBoulder;
     public GameObject Boulder { get { return holdingBoulder; } }
+
+    Camera cam;
 	// Use this for initialization
 	protected override void Start ()
     {
         base.Start();
+        cam = Camera.main;
         anim = GetComponent<Animator>();
         boulderPoint = transform.Find("boulderPoint");
         lastThrowTime = Time.time-throwInterval;
@@ -33,11 +36,16 @@ public class rockEnemy : Enemy {
 	// Update is called once per frame
 	void Update () {
 
+        CheckOutOfScreen();
+
         if (Time.time > lastThrowTime + throwInterval)
         {
             lastThrowTime = Time.time;
             anim.Play("throw");
         }
+
+        if (player == null)
+            return;
 
         if (player.transform.position.x > transform.position.x && transform.localScale.x > 0)
             Flip();
@@ -73,11 +81,25 @@ public class rockEnemy : Enemy {
             g.GetComponent<bouncingProjectile>().Initialize(new Vector2(0, 3));
             g.GetComponent<bouncingProjectile>().enabled = true;
         }
-  
+
+        if (Random.value < Enemy.healthDropChance)
+            Instantiate(healthPickUp, transform.position, Quaternion.identity);
+
         anim.Play("Death");
         soundEngine.soundMaster.PlaySound("boulderHit", transform.position);
         StartCoroutine(dissolveAnimation());
         this.enabled = false;
+    }
+
+    void  CheckOutOfScreen()
+    {
+    
+
+        if (transform.position.x < cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x - 1)
+            this.enabled = false;
+        else if (transform.position.x > cam.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x + 1)
+            this.enabled = false;
+    
     }
 
 

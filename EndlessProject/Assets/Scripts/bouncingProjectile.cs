@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class bouncingProjectile : MonoBehaviour {
 
-    int direction = -1;
 
     Vector2 originPoint;
 
@@ -13,7 +12,6 @@ public class bouncingProjectile : MonoBehaviour {
     [SerializeField]
     private Vector2 velocity;
 
-    float angle;
 
     [SerializeField]
     Vector2 bottomHitDetectionPoint;
@@ -55,11 +53,14 @@ public class bouncingProjectile : MonoBehaviour {
     [SerializeField]
     private bool physicsEnabled = true;
 
+    Camera cam;
+
     public void Initialize(Vector2 velocity)
     {
+        cam = Camera.main;
         this.velocity = velocity;
         originPoint = transform.position;
-        angle = Mathf.Atan(velocity.y / velocity.x) * Mathf.Rad2Deg;
+
     }
     // Use this for initialization
 
@@ -67,6 +68,7 @@ public class bouncingProjectile : MonoBehaviour {
     void Update ()
     {
 
+        CheckOutOfScreen();
         t += Time.deltaTime;
         float xPosition = originPoint.x + velocity.x * t;
 
@@ -137,6 +139,7 @@ public class bouncingProjectile : MonoBehaviour {
                 Vector3 direction = Quaternion.AngleAxis((360 / shrapnelCount) * i, Vector3.forward) * Vector3.up;
                 GameObject g = (GameObject)Instantiate(shrapnel[Random.Range(0, shrapnel.Length)], transform.position, Quaternion.identity);
                 g.GetComponent<EnemyProjectile>().Initialize(direction, shrapnelSpeed);
+                Destroy(g, 10);
             }
         }
 
@@ -147,5 +150,18 @@ public class bouncingProjectile : MonoBehaviour {
     {
         Gizmos.DrawRay(transform.position + new Vector3(bottomHitDetectionPoint.x, bottomHitDetectionPoint.y,0), Vector3.down * hitDetectionDistance);
         Gizmos.DrawRay(transform.position + new Vector3(sideHitDetectionPoint.x, sideHitDetectionPoint.y,0), Vector2.right * hitDetectionDistance);
+    }
+
+    void CheckOutOfScreen()
+    {
+
+
+        if (transform.position.x < cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x - 1)
+            Destroy(gameObject);
+        else if (transform.position.x > cam.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x + 1)
+            Destroy(gameObject);
+        else if (transform.position.y < cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).y - 1)
+            Destroy(gameObject);
+
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-
+    public static float healthDropChance = 0.25f;
 
     protected int direction = -1;
 
@@ -33,8 +33,9 @@ public class Enemy : MonoBehaviour {
     public int StartingDirection { get { return startingDirection; } }
 
     protected bool dead = false;
-    
 
+    [SerializeField]
+    protected GameObject healthPickUp;
     protected virtual void Start()
     {
         player = Player.player;

@@ -31,7 +31,6 @@ public class Player : MonoBehaviour {
     bool jumping = false;
     public bool Jumping { set { jumping = value; } }
 
-    float flippingSpeed = 720f;
 
     bool canJump = false;
 
@@ -97,8 +96,7 @@ public class Player : MonoBehaviour {
 
     public GameObject[] chains;
 
-    [SerializeField]
-    private float grapplingHookForce = 5;
+
 
     [SerializeField]
     private LayerMask grapplingHookLayers;
@@ -108,7 +106,6 @@ public class Player : MonoBehaviour {
 
     bool canGrappleHook = true;
 
-    Vector2 launchDirection;
 
     Transform grapplingPoint;
 
@@ -169,7 +166,6 @@ public class Player : MonoBehaviour {
             if (grapplingHook.Initialized)
             {
                 jumpTimer = jumpWindow * 0.5f;
-                launchDirection = -(grapplingHook.Center - transform.position).normalized;
                 grapplingHook.Initialized = false;
                 canGrappleHook = true;
                 rb.isKinematic = false;
@@ -225,7 +221,6 @@ public class Player : MonoBehaviour {
 
             for (int i = 0; i < chains.Length; i++)
             {
-                Vector3 dir = grapplingHook.Center - grapplingPoint.position;
 
 
                 if (i > 0)

@@ -22,6 +22,7 @@ public class EnemyProjectile : projectile {
     }
     protected override void HitDetection()
     {
+        CheckOutOfScreen();
         Collider2D[] cols = new Collider2D[1];
         Physics2D.OverlapBoxNonAlloc(transform.position, Vector2.one * hitBoxSize, 0, cols, collisionLayers);
 
@@ -47,6 +48,17 @@ public class EnemyProjectile : projectile {
     private void OnDrawGizmos()
     {
         Gizmos.DrawCube(transform.position, Vector3.one * hitBoxSize);
+    }
+
+    void CheckOutOfScreen()
+    {
+
+
+        if (transform.position.x < cam.ScreenToWorldPoint(new Vector3(0, 0, 0)).x - 1)
+            this.enabled = false;
+        else if (transform.position.x > cam.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x + 1)
+            this.enabled = false;
+
     }
 
 }

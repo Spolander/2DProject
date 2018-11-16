@@ -25,6 +25,9 @@ public class PlayerHealth : BaseHealth {
     [SerializeField]
     Image[] healthBarSlots;
 
+    [SerializeField]
+    private GameObject healthExplosion;
+
     public static bool canTakeDamage = true;
 
     private void Start()
@@ -57,6 +60,7 @@ public class PlayerHealth : BaseHealth {
     {
         if (collision.gameObject.tag == "health" && hitPoints < maxHitPoints)
         {
+            Instantiate(healthExplosion, collision.transform.position, Quaternion.identity);
             Heal(1);
             Destroy(collision.gameObject);
         }

@@ -15,8 +15,7 @@ public class Parallax : MonoBehaviour {
     [SerializeField]
     private float baseMultiplier = 2;
 
-    [SerializeField]
-    private float verticalMultiplier = 2;
+
 	// Use this for initialization
 	void Start () {
 

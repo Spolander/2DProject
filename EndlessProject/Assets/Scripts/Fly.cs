@@ -127,6 +127,9 @@ public class Fly : Enemy {
 
     public override void OnDeath()
     {
+        if (Random.value < Enemy.healthDropChance)
+            Instantiate(healthPickUp, transform.position, Quaternion.identity);
+
         soundEngine.soundMaster.PlaySound("flyDeath", transform.position);
         dead = true;
         soundEngine.soundMaster.PlaySound("spiderDeath", transform.position);

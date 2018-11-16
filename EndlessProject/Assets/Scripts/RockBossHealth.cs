@@ -6,7 +6,6 @@ public class RockBossHealth : EnemyHealth {
 
     int quarterHealth;
     int lastHp;
-    int startingHP;
 
     [SerializeField]
     private GameObject explosionPrefab;
@@ -25,7 +24,6 @@ public class RockBossHealth : EnemyHealth {
     protected override void Start()
     {
         base.Start();
-        startingHP = hitPoints;
         lastHp = hitPoints;
         quarterHealth = hitPoints / 4;
     }

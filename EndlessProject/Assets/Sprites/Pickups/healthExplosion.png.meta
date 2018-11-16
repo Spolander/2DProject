@@ -1,13 +1,11 @@
 fileFormatVersion: 2
-guid: 1aa1c27c560c29a4eb427881a0f7e85b
+guid: a17623c94bb53fe49a81c2acaab6fae9
 TextureImporter:
   fileIDToRecycleName:
-    21300000: spritesheet (3)_0
-    21300002: spritesheet (3)_1
-    21300004: spritesheet (3)_2
-    21300006: spritesheet (3)_3
-    21300008: spritesheet (3)_4
-    21300010: spritesheet (3)_5
+    21300000: healthExplosion_0
+    21300002: healthExplosion_1
+    21300004: healthExplosion_2
+    21300006: healthExplosion_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -90,7 +88,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spritesheet (3)_0
+      name: healthExplosion_0
       rect:
         serializedVersion: 2
         x: 0
@@ -104,16 +102,16 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0547cf742f2400f4eb83f04522c27eb8
+      spriteID: f5abc20fd434b3f4bbb512183cf72ee4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet (3)_1
+      name: healthExplosion_1
       rect:
         serializedVersion: 2
-        x: 28
+        x: 31
         y: 11
         width: 25
         height: 25
@@ -124,19 +122,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f318251451da4b46ad22f78bbadf90a
+      spriteID: 2a4d15c1f7e6cef4f9fd92c7d009465e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet (3)_2
+      name: healthExplosion_2
       rect:
         serializedVersion: 2
-        x: 56
+        x: 60
         y: 9
-        width: 29
-        height: 29
+        width: 31
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,7 +142,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3026508f9009487419eef67bb2dfebb6
+      spriteID: b9a8f59c5a894024a9b18efb68a70ba5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: healthExplosion_3
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 6
+        width: 35
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c63571c9c0b3ad841b09347ea7bd6346
       vertices: []
       indices: 
       edges: []
@@ -152,7 +170,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: b7cfa02d92a800647bcfa13549c9c457
+    spriteID: a9de369ed528d8643b512a74c34081d5
     vertices: []
     indices: 
     edges: []

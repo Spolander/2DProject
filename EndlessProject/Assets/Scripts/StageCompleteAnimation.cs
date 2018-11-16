@@ -23,7 +23,7 @@ public class StageCompleteAnimation : MonoBehaviour {
 
         while(lerp < 1)
         {
-            lerp += Time.deltaTime;
+            lerp += Time.deltaTime*1.33f;
 
             Vector3 v = Vector3.Lerp(startPos, endPos, lerp);
             stageCompleteText.localPosition = v;

@@ -19,7 +19,6 @@ public class RockSpider : Enemy {
 
 
     bool jumping = true;
-    bool falling = false;
     bool walking = true;
 
     [SerializeField]
@@ -41,12 +40,15 @@ public class RockSpider : Enemy {
     [SerializeField]
     private GameObject particleEffect;
 
+
+
     bool activated = false;
 	protected override void Start () {
         base.Start();
 
         Instantiate(particleEffect, transform.position, Quaternion.identity);
         Invoke("Activate", activationDelay);
+        Destroy(gameObject, 20);
       
 	}
 
@@ -156,6 +158,9 @@ public class RockSpider : Enemy {
 
     public override void OnDeath()
     {
+        if(Random.value < Enemy.healthDropChance)
+        Instantiate(healthPickUp, transform.position, Quaternion.identity);
+
         soundEngine.soundMaster.PlaySound("spiderDeath",transform.position);
         GetComponent<Collider2D>().enabled = false;
         walking = false;
