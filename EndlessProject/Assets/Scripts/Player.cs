@@ -124,6 +124,10 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
+
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+
         grapplingPoint = transform.Find("grapplingPoint");
         cc2d = GetComponent<CapsuleCollider2D>();
         player = this;

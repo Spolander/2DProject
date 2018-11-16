@@ -64,6 +64,10 @@ public class PlayerHealth : BaseHealth {
             Heal(1);
             Destroy(collision.gameObject);
         }
+        else if (collision.gameObject.tag == "lava")
+        {
+            TakeDamage(100);
+        }
     }
 
     IEnumerator damageFlash()
@@ -106,6 +110,7 @@ public class PlayerHealth : BaseHealth {
         {
             if (healthBarSlots.Length > 0)
             {
+                if(hitPoints < healthBarSlots.Length && hitPoints >= 0)
                 healthBarSlots[hitPoints].overrideSprite = healthGoneSprite;
             }
         }
@@ -142,5 +147,11 @@ public class PlayerHealth : BaseHealth {
         }
 
        
+    }
+
+    public override void Death()
+    {
+        gameOverCanvas.m_gameOverCanvas.Invoke("gameOver", 1);
+        Destroy(gameObject);
     }
 }

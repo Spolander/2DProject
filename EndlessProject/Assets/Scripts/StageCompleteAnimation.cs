@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class StageCompleteAnimation : MonoBehaviour {
 
     [SerializeField]
@@ -30,5 +31,8 @@ public class StageCompleteAnimation : MonoBehaviour {
             yield return null;
 
         }
+
+        yield return new WaitForSecondsRealtime(3f);
+        SceneManager.LoadScene("MainMenu");
     }
 }
