@@ -233,7 +233,6 @@ public class RockBoss : Enemy {
 
     public void PlayAttackSound()
     {
-        if(Random.value > 0.5f)
         soundEngine.soundMaster.PlaySound("bossAttackShort", transform.position);
     }
 
