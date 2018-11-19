@@ -110,8 +110,11 @@ public class PlayerHealth : BaseHealth {
         {
             if (healthBarSlots.Length > 0)
             {
-                if(hitPoints < healthBarSlots.Length && hitPoints >= 0)
-                healthBarSlots[hitPoints].overrideSprite = healthGoneSprite;
+                for (int i = 0; i < healthBarSlots.Length; i++)
+                    if (hitPoints >= i + 1)
+                        healthBarSlots[i].overrideSprite = healthSprite;
+                    else
+                        healthBarSlots[i].overrideSprite = healthGoneSprite;
             }
         }
            
