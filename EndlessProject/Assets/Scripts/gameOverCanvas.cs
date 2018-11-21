@@ -76,6 +76,7 @@ public class gameOverCanvas : MonoBehaviour {
         if (isGameOver)
             return;
 
+        Time.timeScale = 1;
         cursor.position = selections[currentSelection].TransformPoint(selectionPositions[currentSelection]);
         GetComponent<Canvas>().enabled = true;
         isGameOver = true;

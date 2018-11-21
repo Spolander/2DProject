@@ -33,6 +33,8 @@ public class StageCompleteAnimation : MonoBehaviour {
         }
 
         yield return new WaitForSecondsRealtime(3f);
-        SceneManager.LoadScene("MainMenu");
+
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Menu");
     }
 }

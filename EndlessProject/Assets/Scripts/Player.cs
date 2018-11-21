@@ -144,6 +144,12 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetButtonDown("Start"))
+        {
+            Pause.instance.PauseGame();
+        }
+        if (Time.timeScale < 1)
+            return;
 
         float horizontal = Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.2f ? Mathf.Sign(Input.GetAxisRaw("Horizontal")): 0;
         anim.SetFloat("Speed", Mathf.Abs(horizontal) > 0.2f ? 1 : 0);
@@ -260,6 +266,9 @@ public class Player : MonoBehaviour {
         }
 
         groundCheck();
+
+
+       
      }
 
         void SetAimVector()

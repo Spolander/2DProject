@@ -17,10 +17,10 @@ public class rotateIcon : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        timer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
 
      
-            r.Rotate(new Vector3(0, 1, 0), Time.deltaTime*interval);
+            r.Rotate(new Vector3(0, 1, 0), Time.fixedDeltaTime*interval);
        
 	}
 }

@@ -46,7 +46,19 @@ public class soundEngine : MonoBehaviour
     [SerializeField]
     private AudioClip[] bossGroan;
 
+
+    [SerializeField]
+    private AudioClip healthGet;
+
+    [SerializeField]
+    private AudioClip hurt;
+
+    [SerializeField]
+    private AudioClip heal;
+
     public AudioMixer mixer;
+
+  
 
     private void Awake()
     {
@@ -125,7 +137,22 @@ public class soundEngine : MonoBehaviour
         {
             a.clip = bossImpact;
         }
+        else if (soundclip == "healthGet")
+        {
+            a.clip = healthGet;
+        }
+        else if (soundclip == "hurt")
+        {
+            a.clip = hurt;
+            a.spatialBlend = 0;
+        }
+        else if (soundclip == "whew")
+        {
+            a.clip = heal;
+        }
 
+        a.maxDistance = 15;
+        a.minDistance = 5;
         g.transform.position = position;
         a.outputAudioMixerGroup = mixer.FindMatchingGroups("FX")[0];
         a.Play();

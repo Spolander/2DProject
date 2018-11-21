@@ -60,6 +60,7 @@ public class PlayerHealth : BaseHealth {
     {
         if (collision.gameObject.tag == "health" && hitPoints < maxHitPoints)
         {
+            soundEngine.soundMaster.PlaySound("healthGet", transform.position);
             Instantiate(healthExplosion, collision.transform.position, Quaternion.identity);
             Heal(1);
             Destroy(collision.gameObject);
@@ -106,6 +107,8 @@ public class PlayerHealth : BaseHealth {
         lastHitTime = Time.time;
         hitPoints -= damage;
 
+        soundEngine.soundMaster.PlaySound("hurt", transform.position);
+
         if (healthBarSlots != null)
         {
             if (healthBarSlots.Length > 0)
@@ -137,7 +140,7 @@ public class PlayerHealth : BaseHealth {
     {
         base.Heal(amount);
 
-
+        soundEngine.soundMaster.PlaySound("whew", transform.position);
         if (healthBarSlots != null)
         {
             if (healthBarSlots.Length > 0)

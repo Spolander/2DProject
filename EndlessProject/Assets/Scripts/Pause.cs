@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-public class MainMenu : MonoBehaviour {
+public class Pause : MonoBehaviour {
 
+    public static Pause instance;
 
 
     [SerializeField]
@@ -19,18 +18,64 @@ public class MainMenu : MonoBehaviour {
     [SerializeField]
     RectTransform[] selections;
 
+    [SerializeField]
+    private AudioSource pauseMusic;
+
+    [SerializeField]
+    private AudioSource[] otherMusic;
+
+    private bool[] otherMusicState;
+
     bool directionPressed = false;
+    private bool gamePaused = false;
+
+
+    [SerializeField]
+    private Canvas c;
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = false;
-
+        instance = this;
         cursor.position = selections[currentSelection].TransformPoint(selectionPositions[currentSelection]);
+        otherMusicState = new bool[otherMusic.Length];
+
+        for (int i = 0; i < otherMusicState.Length; i++)
+            otherMusicState[i] = otherMusic[i].isPlaying;
     }
 
 
+    public void PauseGame()
+    {
+        gamePaused = !gamePaused;
+        if (gamePaused)
+        {
+            Time.timeScale = 0;
+            pauseMusic.Play();
+            for (int i = 0; i < otherMusic.Length; i++)
+            {
+                otherMusicState[i] = otherMusic[i].isPlaying;
+                otherMusic[i].Pause();
+            }
+               
+        }
+        else
+        {
+            Time.timeScale = 1;
+            pauseMusic.Stop();
+            for (int i = 0; i < otherMusic.Length; i++)
+            {
+                if (otherMusicState[i])
+                    otherMusic[i].Play();
+            }
+        }
+
+        c.enabled = gamePaused;
+    }
+
     private void Update()
     {
+        if (gamePaused == false)
+            return;
+
         if (Input.GetAxisRaw("Vertical") < -0.5f && directionPressed == false)
         {
             directionPressed = true;
@@ -60,14 +105,16 @@ public class MainMenu : MonoBehaviour {
     }
 
 
-   
+
     void handleSelection()
     {
         if (currentSelection == 0)
-            SceneManager.LoadScene(1);
-        else if (currentSelection == 1)
-            Application.Quit();
+            PauseGame();
+        else
+        {
+            Time.timeScale = 1;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+           
     }
-
- 
 }
